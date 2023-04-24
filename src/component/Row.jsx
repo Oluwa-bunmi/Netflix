@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const Row = ({ title, fetchURL }) => {
   const [movies, setMovies] = useState([]);
+  const [like, setLike] = useState(false);
   useEffect(() => {
     axios.get(fetchURL).then((res) => {
       setMovies(res.data.results);
@@ -24,6 +26,13 @@ const Row = ({ title, fetchURL }) => {
               <div className="absolute top-0 left-0 w-full h-full opacity-0 text-white hover:bg-black/80 hover:opacity-100">
                 <p className="text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">
                   {item?.title}
+                </p>
+                <p>
+                  {like ? (
+                    <FaHeart className="absolute top-4 left-4 text-gray-300" />
+                  ) : (
+                    <FaRegHeart className="absolute top-4 left-4 text-gray-300" />
+                  )}
                 </p>
               </div>
             </div>
