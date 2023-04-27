@@ -1,6 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bg from "../assets/netflix.jpg";
+import { UserAuth } from "../context/AuthContext";
+import { useState } from "react";
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { user, signUp } = UserAuth();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signUp(email, password);
+      navigate("/")
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="w-full h-screen">
@@ -14,16 +29,21 @@ const SignUp = () => {
           <div className="max-w-[450px] h-[600px] mx-auto text-white bg-black/75">
             <div className="max-w-[320px] mx-auto py-16">
               <h1 className="text-3xl font-bold">Sign Up</h1>
-              <form className="w-full flex flex-col py-4 ">
+              <form
+                onSubmit={handleSubmit}
+                className="w-full flex flex-col py-4"
+              >
                 <input
                   type="email"
                   placeholder="Email"
                   className="p-3 my-2 bg-gray-700 rounded"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
                   placeholder="Password"
                   className="p-3 my-2 bg-gray-700 rounded"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button className="bg-red-600 py-3 my-6 rounded font-bold">
                   Sign Up
